@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
     <title>Déficit</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
@@ -30,6 +30,15 @@
         flex: 1;
       }
     </style>
+    <script>
+      // iPhone: al cerrar el teclado Safari deja la página corrida y los toques no le apuntan a los botones.
+      document.addEventListener('focusout', function () {
+        setTimeout(function () {
+          var a = document.activeElement;
+          if (!a || (a.tagName !== 'INPUT' && a.tagName !== 'TEXTAREA')) window.scrollTo(0, 0);
+        }, 80);
+      });
+    </script>
 <meta name="theme-color" content="#2E7D4F">
 <link rel="icon" href="/favicon.ico"/></head>
 
@@ -38,6 +47,6 @@
     <noscript> You need to enable JavaScript to run this app. </noscript>
     <!-- The root element for your Expo app. -->
     <div id="root"></div>
-<script src="/_expo/static/js/web/index-c344bc2a481fd79d9cd665c9caf1d1b7.js" defer></script>
+<script src="/_expo/static/js/web/index-3212084ce77bcc905bccbe4efd015592.js" defer></script>
 </body>
 </html>
