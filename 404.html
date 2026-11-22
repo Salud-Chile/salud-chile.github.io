@@ -45,8 +45,13 @@
         function arreglar(el) {
           if (el.dataset.ok) return;
           el.dataset.ok = '1';
+          // Safari no ofrece Autorrelleno (tarjetas, contactos) en campos que se llaman "search".
+          var id = 'search-' + Math.random().toString(36).slice(2, 8);
           el.setAttribute('autocomplete', 'off');
-          el.setAttribute('name', 'campo-' + Math.random().toString(36).slice(2, 8));
+          el.setAttribute('name', id);
+          if (!el.id) el.id = id;
+          el.setAttribute('aria-autocomplete', 'none');
+          el.setAttribute('data-form-type', 'other');
           var numerico = /decimal|numeric|tel/.test(el.getAttribute('inputmode') || '') || el.type === 'number';
           if (numerico) {
             el.setAttribute('autocorrect', 'off');
