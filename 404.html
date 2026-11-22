@@ -38,6 +38,34 @@
           if (!a || (a.tagName !== 'INPUT' && a.tagName !== 'TEXTAREA')) window.scrollTo(0, 0);
         }, 80);
       });
+
+      // iPhone: sin esto Safari cree que los campos son de tarjeta de crédito (sugiere la Visa) y apaga
+      // el autocorrector. Marcamos cada campo: texto con autocorrector, números sin autocompletar.
+      (function () {
+        function arreglar(el) {
+          if (el.dataset.ok) return;
+          el.dataset.ok = '1';
+          el.setAttribute('autocomplete', 'off');
+          el.setAttribute('name', 'campo-' + Math.random().toString(36).slice(2, 8));
+          var numerico = /decimal|numeric|tel/.test(el.getAttribute('inputmode') || '') || el.type === 'number';
+          if (numerico) {
+            el.setAttribute('autocorrect', 'off');
+            el.setAttribute('spellcheck', 'false');
+          } else {
+            el.setAttribute('autocorrect', 'on');
+            el.setAttribute('spellcheck', 'true');
+            el.setAttribute('autocapitalize', 'sentences');
+          }
+        }
+        function revisar() {
+          document.querySelectorAll('input:not([data-ok]), textarea:not([data-ok])').forEach(arreglar);
+        }
+        new MutationObserver(revisar).observe(document.documentElement, { childList: true, subtree: true });
+        document.addEventListener('focusin', function (e) {
+          var t = e.target;
+          if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) arreglar(t);
+        });
+      })();
     </script>
 <meta name="theme-color" content="#2E7D4F">
 <link rel="icon" href="/favicon.ico"/></head>
